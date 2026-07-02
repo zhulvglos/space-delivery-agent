@@ -6,7 +6,18 @@ const projectMapRef = ref<HTMLElement | null>(null)
 const projectScaleRef = ref<HTMLElement | null>(null)
 const buildMethodRef = ref<HTMLElement | null>(null)
 const assetSectionRef = ref<HTMLElement | null>(null)
+const baiduMapRef = ref<HTMLElement | null>(null)
+const baiduMapStatus = ref('')
 const showBackTop = ref(false)
+const BAIDU_MAP_AK = import.meta.env.VITE_BAIDU_MAP_AK || ''
+const BAIDU_MAP_SCRIPT_ID = 'baidu-map-gl-script'
+
+declare global {
+  interface Window {
+    BMapGL?: any
+    initCapsuleCabinMap?: () => void
+  }
+}
 
 const scrollToSection = (target: HTMLElement | null) => {
   target?.scrollIntoView({
@@ -24,6 +35,79 @@ const scrollToTop = () => {
 
 const updateBackTopVisibility = () => {
   showBackTop.value = window.scrollY > 520
+}
+
+const renderBaiduMap = () => {
+  if (!baiduMapRef.value || !window.BMapGL) return
+
+  const BMapGL = window.BMapGL
+  const map = new BMapGL.Map(baiduMapRef.value)
+  const fallbackPoint = new BMapGL.Point(122.12042, 37.51307)
+
+  map.centerAndZoom(fallbackPoint, 13)
+  map.enableScrollWheelZoom(true)
+  map.addControl(new BMapGL.ZoomControl())
+  map.addControl(new BMapGL.ScaleControl())
+
+  const setMarker = (point: any, title = '威海滨海度假区') => {
+    map.centerAndZoom(point, 15)
+    const marker = new BMapGL.Marker(point)
+    map.clearOverlays()
+    map.addOverlay(marker)
+
+    const label = new BMapGL.Label(title, {
+      position: point,
+      offset: new BMapGL.Size(16, -34),
+    })
+    label.setStyle({
+      color: '#083344',
+      border: '1px solid rgba(15, 118, 110, 0.28)',
+      borderRadius: '8px',
+      padding: '7px 10px',
+      fontSize: '13px',
+      fontWeight: '700',
+      backgroundColor: 'rgba(255, 255, 255, 0.92)',
+      boxShadow: '0 8px 20px rgba(15, 23, 42, 0.12)',
+    })
+    map.addOverlay(label)
+  }
+
+  const geocoder = new BMapGL.Geocoder()
+  geocoder.getPoint(
+    '威海滨海度假区',
+    (point: any) => {
+      setMarker(point || fallbackPoint)
+      baiduMapStatus.value = ''
+    },
+    '威海市'
+  )
+}
+
+const loadBaiduMap = () => {
+  if (!BAIDU_MAP_AK) {
+    baiduMapStatus.value = '未配置百度地图 AK，无法加载动态地图。'
+    return
+  }
+
+  if (window.BMapGL) {
+    renderBaiduMap()
+    return
+  }
+
+  const existingScript = document.getElementById(BAIDU_MAP_SCRIPT_ID)
+  if (existingScript) return
+
+  baiduMapStatus.value = '百度地图加载中...'
+  window.initCapsuleCabinMap = renderBaiduMap
+
+  const script = document.createElement('script')
+  script.id = BAIDU_MAP_SCRIPT_ID
+  script.src = `https://api.map.baidu.com/api?v=1.0&type=webgl&ak=${encodeURIComponent(BAIDU_MAP_AK)}&callback=initCapsuleCabinMap`
+  script.async = true
+  script.onerror = () => {
+    baiduMapStatus.value = '百度地图加载失败，请检查 AK、域名白名单或网络访问。'
+  }
+  document.head.appendChild(script)
 }
 
 onMounted(() => {
@@ -53,6 +137,7 @@ onMounted(() => {
 
   updateBackTopVisibility()
   window.addEventListener('scroll', updateBackTopVisibility, { passive: true })
+  loadBaiduMap()
 })
 
 onUnmounted(() => {
@@ -123,11 +208,11 @@ onBeforeRouteLeave(() => {
     <section ref="projectMapRef" class="project-map-section" id="project-map">
       <div class="section-kicker">项目位置 / 场地参考</div>
       <div class="map-frame">
-        <img
-          src="/assets/capsule_cabin/home_map_link_no_nodes.png"
-          alt="威海滨海度假区项目位置地图"
-          loading="lazy"
-        />
+        <div ref="baiduMapRef" class="baidu-map-canvas" aria-label="威海滨海度假区百度地图"></div>
+        <div v-if="baiduMapStatus" class="map-status">
+          <strong>{{ baiduMapStatus }}</strong>
+          <span>动态地图需在 Render 构建环境中配置 VITE_BAIDU_MAP_AK。</span>
+        </div>
         <a
           class="map-open-link"
           href="https://j.map.baidu.com/66/srrM"
@@ -579,11 +664,36 @@ onBeforeRouteLeave(() => {
   box-shadow: 0 18px 42px rgba(15, 23, 42, 0.12);
 }
 
-.map-frame img {
+.baidu-map-canvas {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+}
+
+.map-status {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px;
+  color: #334155;
+  text-align: center;
+  background: linear-gradient(135deg, #e2edf2, #f8fbfc);
+}
+
+.map-status strong {
+  color: #083344;
+  font-size: 16px;
+}
+
+.map-status span {
+  max-width: 520px;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.6;
 }
 
 .map-open-link {

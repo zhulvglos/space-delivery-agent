@@ -3,7 +3,9 @@ WORKDIR /app/frontend
 COPY frontend/package.json frontend/package-lock.json* ./
 RUN npm install
 COPY frontend/ ./
+ARG VITE_BAIDU_MAP_AK
 ENV VITE_API_BASE_URL=
+ENV VITE_BAIDU_MAP_AK=${VITE_BAIDU_MAP_AK}
 RUN npm run build
 
 FROM python:3.11-slim
