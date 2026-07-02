@@ -64,7 +64,7 @@ app.include_router(agent_router)
 
 @app.get("/")
 async def root():
-    frontend_index = Path(__file__).resolve().parents[2] / "frontend_dist" / "index.html"
+    frontend_index = Path(__file__).resolve().parents[1] / "frontend_dist" / "index.html"
     if frontend_index.exists():
         return FileResponse(frontend_index)
     return {"name": settings.APP_NAME, "version": settings.APP_VERSION}
@@ -84,7 +84,7 @@ async def api_info():
     }
 
 
-frontend_dist = Path(__file__).resolve().parents[2] / "frontend_dist"
+frontend_dist = Path(__file__).resolve().parents[1] / "frontend_dist"
 if frontend_dist.exists():
     assets_dir = frontend_dist / "assets"
     if assets_dir.exists():
