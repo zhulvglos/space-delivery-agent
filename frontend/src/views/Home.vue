@@ -13,8 +13,8 @@ const BAIDU_MAP_AK = import.meta.env.VITE_BAIDU_MAP_AK || ''
 const BAIDU_MAP_SCRIPT_ID = 'baidu-map-gl-script'
 const PROJECT_MAP_URL = 'https://j.map.baidu.com/b1/8MbM'
 const PROJECT_MAP_KEYWORDS = [
-  '瑞泽海度假酒店(搁浅巨轮布鲁维斯号店)',
   '瑞泽卡素Capsule观澜小院酒店',
+  '瑞泽卡素 Capsule 观澜小院酒店',
 ]
 
 declare global {
@@ -62,7 +62,7 @@ const renderBaiduMap = () => {
     map.setMapType(window.BMAP_SATELLITE_MAP)
   }
 
-  const setMarker = (point: any, title = '瑞泽海度假酒店（卡素 Capsule）') => {
+  const setMarker = (point: any, title = '瑞泽卡素Capsule观澜小院酒店') => {
     map.centerAndZoom(point, 19)
     const marker = new BMapGL.Marker(point)
     map.clearOverlays()
@@ -90,7 +90,7 @@ const renderBaiduMap = () => {
     onSearchComplete: (results: any) => {
       const firstResult = results?.getPoi?.(0)
       if (firstResult?.point) {
-        setMarker(firstResult.point, firstResult.title || '瑞泽海度假酒店（卡素 Capsule）')
+        setMarker(firstResult.point, firstResult.title || '瑞泽卡素Capsule观澜小院酒店')
         baiduMapStatus.value = ''
         return
       }
