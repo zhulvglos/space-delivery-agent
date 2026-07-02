@@ -14,17 +14,17 @@ alembic==1.13.1
 # Redis
 redis==5.0.1
 
-# LangChain & LangGraph (let pip resolve versions)
-langchain
-langchain-core
-langchain-community
-langgraph
-langchain-chroma
-langchain-openai
+# Agent / LLM
+langgraph==0.2.76
+langchain==0.3.27
+langchain-core==0.3.80
+langchain-openai==0.3.35
 
-# 向量数据库
-chromadb
-faiss-cpu
+# RAG 依赖较重，线上简历 Demo 默认关闭 ENABLE_RAG_INIT。
+# 如需启用向量知识库，可按需安装：
+# langchain-chroma==0.2.6
+# chromadb==1.1.1
+# faiss-cpu==1.12.0
 
 # LLM
 openai
