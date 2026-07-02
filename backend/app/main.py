@@ -1,9 +1,12 @@
 """FastAPI application entrypoint."""
 from contextlib import asynccontextmanager
 import logging
+from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 from app.config import settings
 from app.database import init_db
@@ -61,6 +64,9 @@ app.include_router(agent_router)
 
 @app.get("/")
 async def root():
+    frontend_index = Path(__file__).resolve().parents[2] / "frontend_dist" / "index.html"
+    if frontend_index.exists():
+        return FileResponse(frontend_index)
     return {"name": settings.APP_NAME, "version": settings.APP_VERSION}
 
 
@@ -76,6 +82,22 @@ async def api_info():
         "version": settings.APP_VERSION,
         "llm_provider": settings.LLM_PROVIDER,
     }
+
+
+frontend_dist = Path(__file__).resolve().parents[2] / "frontend_dist"
+if frontend_dist.exists():
+    assets_dir = frontend_dist / "assets"
+    if assets_dir.exists():
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
+
+    index_file = frontend_dist / "index.html"
+
+    @app.get("/{full_path:path}", include_in_schema=False)
+    async def serve_spa(full_path: str):
+        requested = frontend_dist / full_path
+        if requested.is_file():
+            return FileResponse(requested)
+        return FileResponse(index_file)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: space-delivery-agent
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: DEBUG
+        value: "False"
+      - key: ENABLE_RAG_INIT
+        value: "False"
+      - key: DATABASE_URL
+        value: sqlite+aiosqlite:///./moverenovateai.db
+      - key: SECRET_KEY
+        generateValue: true
