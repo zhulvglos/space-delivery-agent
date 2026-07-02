@@ -1,0 +1,44 @@
+# FastAPI 框架
+fastapi==0.109.2
+uvicorn[standard]==0.27.1
+python-multipart==0.0.9
+pydantic==2.10.6
+pydantic-settings==2.1.0
+
+# 数据库
+sqlalchemy[asyncio]==2.0.25
+asyncpg==0.30.0
+aiosqlite==0.19.0
+alembic==1.13.1
+
+# Redis
+redis==5.0.1
+
+# LangChain & LangGraph (let pip resolve versions)
+langchain
+langchain-core
+langchain-community
+langgraph
+langchain-chroma
+langchain-openai
+
+# 向量数据库
+chromadb
+faiss-cpu
+
+# LLM
+openai
+httpx>=0.27.0
+
+# JWT 认证
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+
+# 工具库
+numpy>=2.0.0
+python-dotenv==1.0.1
+loguru==0.7.2
+
+# 测试
+pytest>=8.0
+pytest-asyncio>=0.23

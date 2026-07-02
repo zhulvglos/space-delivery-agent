@@ -1,0 +1,64 @@
+{
+  "source_note": "基于瑞泽·海度假民宿已建项目参与经验、产品资料图、户型图与现场交付复盘整理；非合同、报价或正式工程记录。",
+  "real_project": {
+    "name": "瑞泽·海度假民宿",
+    "location_display": "威海滨海度假区",
+    "type": "营地型度假民宿",
+    "scale": {
+      "total_units": 13,
+      "single_units_38sqm": 7,
+      "assembled_units_56sqm": 6
+    },
+    "product_system": "卡素产品体系 / Capsule Cabin"
+  },
+  "products": [
+    {
+      "model": "Capsule Cabin S",
+      "area_sqm": 38,
+      "positioning": "空间紧凑的标准单体产品，不严格限定客群，最多 4 人入住。",
+      "space_modules": ["榻榻米", "衣柜/挂衣空间", "卫浴", "沙发区", "水吧台", "换鞋区"],
+      "recommend_when": ["标准单体", "轻量扩建", "空间紧凑", "控制面积", "最多4人入住"]
+    },
+    {
+      "model": "Capsule Cabin M",
+      "area_sqm": 56,
+      "positioning": "拼装产品，解决多人入住、活动区、做饭、空间灵活变换和空间宽松问题。",
+      "space_modules": ["睡眠区", "卫浴", "活动区", "简餐/烹饪区", "水吧台", "收纳区", "灵活变换区"],
+      "recommend_when": ["多人入住", "亲子", "小团体", "做饭", "活动区", "空间宽松", "灵活变换"]
+    }
+  ],
+  "standard_configuration": {
+    "core_furniture": ["床", "品质较好的床垫", "床头柜", "写字台", "座椅", "茶几", "衣橱/挂衣空间", "衣架", "行李架"],
+    "bedding": ["床单", "被套", "枕套", "柔软舒适的床品"],
+    "bathroom": ["干湿分离卫浴", "盥洗区", "洗浴区", "厕位", "马桶", "淋浴设施", "洗面盆", "梳妆镜", "浴巾", "毛巾", "一次性洗漱用品", "吹风机"],
+    "water_and_drink": ["24小时冷水", "定时热水", "电热水壶", "茶包/咖啡", "瓶装水"],
+    "comfort_and_safety": ["空调/供暖设备", "220V电源插座", "烟雾报警器等消防设施"],
+    "network_and_entertainment": ["稳定 Wi-Fi", "电视"]
+  },
+  "optional_configuration": {
+    "smart_and_tech": ["全屋智能客控系统", "大屏幕投影设备"]
+  },
+  "operation": {
+    "mode": "偏无人化运营",
+    "self_check_in": true,
+    "smart_devices": ["智能门锁", "灯光控制", "空调控制", "窗帘控制", "传感器", "监控", "网络"],
+    "operator_concerns": ["入住效率", "维护成本", "拍照传播", "舒适度"]
+  },
+  "delivery": {
+    "workflow": ["设计确认", "工厂加工/预制", "运输", "现场基础", "吊装", "拼接安装", "调试验收"],
+    "high_risk_phases": ["工厂加工/预制", "拼接安装", "调试验收"],
+    "site_conditions": ["吊装空间", "道路运输", "基础不平", "排水", "防水", "防腐", "供电网络"],
+    "installation_mode": "按单体逐套推进"
+  },
+  "risks": {
+    "coastal": ["防腐", "防水", "潮湿", "风"],
+    "construction": ["材料到货"],
+    "indoor_experience": ["隔音", "隐私", "空调"]
+  },
+  "ai_opportunities": [
+    "在需求端生成面向业主方的需求问卷，辅助设计评估",
+    "对面积和 BOM 表进行配置控制",
+    "对生产端进度进行智能化管理",
+    "对现场交付风险和验收任务进行结构化提醒"
+  ]
+}

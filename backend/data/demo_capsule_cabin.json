@@ -1,0 +1,43 @@
+{
+  "project_name": "瑞泽·海度假民宿 38㎡单体扩建（规则型 PoC）",
+  "real_project_name": "瑞泽·海度假民宿",
+  "project_location_display": "威海滨海度假区",
+  "project_type": "营地型度假民宿",
+  "product_system": "卡素产品体系 / Capsule Cabin",
+  "total_units": 13,
+  "single_units": 7,
+  "assembled_units": 6,
+  "product_series": "Capsule Cabin S",
+  "area_sqm": 38,
+  "target_guests": "不限定客群，空间紧凑，最多 4 人入住",
+  "style": "柔和粉白色系，海滨轻度假",
+  "operation_mode": "偏无人化运营，自助入住 + 基础智能控制",
+  "space_modules": [
+    "榻榻米",
+    "衣柜/挂衣空间",
+    "卫浴",
+    "沙发区",
+    "水吧台",
+    "换鞋区"
+  ],
+  "smart_devices": [
+    "智能门锁",
+    "灯光控制",
+    "空调控制",
+    "窗帘控制",
+    "传感器",
+    "监控",
+    "稳定 Wi-Fi"
+  ],
+  "delivery_phases": [
+    "设计确认",
+    "工厂加工/预制",
+    "运输",
+    "现场基础",
+    "吊装",
+    "拼接安装",
+    "调试验收"
+  ],
+  "data_source_note": "基于瑞泽·海度假民宿已建项目参与经验、产品资料图、户型图与现场交付复盘整理。",
+  "disclaimer": "本案例为基于瑞泽·海度假民宿已建项目经验复盘的规则型 AI PoC；配置、预算与周期均为示例，不构成正式设计、报价或施工承诺。"
+}
