@@ -11,10 +11,17 @@ const baiduMapStatus = ref('')
 const showBackTop = ref(false)
 const BAIDU_MAP_AK = import.meta.env.VITE_BAIDU_MAP_AK || ''
 const BAIDU_MAP_SCRIPT_ID = 'baidu-map-gl-script'
+const PROJECT_MAP_URL = 'https://j.map.baidu.com/b1/8MbM'
+const PROJECT_MAP_KEYWORDS = [
+  '瑞泽海度假酒店(搁浅巨轮布鲁维斯号店)',
+  '瑞泽卡素Capsule观澜小院酒店',
+]
 
 declare global {
   interface Window {
     BMapGL?: any
+    BMAP_EARTH_MAP?: any
+    BMAP_SATELLITE_MAP?: any
     initCapsuleCabinMap?: () => void
   }
 }
@@ -42,15 +49,21 @@ const renderBaiduMap = () => {
 
   const BMapGL = window.BMapGL
   const map = new BMapGL.Map(baiduMapRef.value)
-  const fallbackPoint = new BMapGL.Point(122.12042, 37.51307)
+  const fallbackPoint = new BMapGL.Point(122.55296, 37.40538)
 
-  map.centerAndZoom(fallbackPoint, 13)
+  map.centerAndZoom(fallbackPoint, 18)
   map.enableScrollWheelZoom(true)
   map.addControl(new BMapGL.ZoomControl())
   map.addControl(new BMapGL.ScaleControl())
 
-  const setMarker = (point: any, title = '威海滨海度假区') => {
-    map.centerAndZoom(point, 15)
+  if (window.BMAP_EARTH_MAP) {
+    map.setMapType(window.BMAP_EARTH_MAP)
+  } else if (window.BMAP_SATELLITE_MAP) {
+    map.setMapType(window.BMAP_SATELLITE_MAP)
+  }
+
+  const setMarker = (point: any, title = '瑞泽海度假酒店（卡素 Capsule）') => {
+    map.centerAndZoom(point, 19)
     const marker = new BMapGL.Marker(point)
     map.clearOverlays()
     map.addOverlay(marker)
@@ -72,15 +85,29 @@ const renderBaiduMap = () => {
     map.addOverlay(label)
   }
 
-  const geocoder = new BMapGL.Geocoder()
-  geocoder.getPoint(
-    '威海滨海度假区',
-    (point: any) => {
-      setMarker(point || fallbackPoint)
+  const searchQueue = [...PROJECT_MAP_KEYWORDS]
+  const localSearch = new BMapGL.LocalSearch('威海市', {
+    onSearchComplete: (results: any) => {
+      const firstResult = results?.getPoi?.(0)
+      if (firstResult?.point) {
+        setMarker(firstResult.point, firstResult.title || '瑞泽海度假酒店（卡素 Capsule）')
+        baiduMapStatus.value = ''
+        return
+      }
+
+      const nextKeyword = searchQueue.shift()
+      if (nextKeyword) {
+        localSearch.search(nextKeyword)
+        return
+      }
+
+      setMarker(fallbackPoint)
       baiduMapStatus.value = ''
     },
-    '威海市'
-  )
+  })
+
+  const firstKeyword = searchQueue.shift()
+  if (firstKeyword) localSearch.search(firstKeyword)
 }
 
 const loadBaiduMap = () => {
@@ -215,7 +242,7 @@ onBeforeRouteLeave(() => {
         </div>
         <a
           class="map-open-link"
-          href="https://j.map.baidu.com/66/srrM"
+          :href="PROJECT_MAP_URL"
           target="_blank"
           rel="noopener noreferrer"
         >
