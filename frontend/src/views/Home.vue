@@ -123,12 +123,19 @@ onBeforeRouteLeave(() => {
     <section ref="projectMapRef" class="project-map-section" id="project-map">
       <div class="section-kicker">项目位置 / 场地参考</div>
       <div class="map-frame">
-        <iframe
-          title="威海滨海度假区百度地图"
-          src="https://j.map.baidu.com/66/srrM"
+        <img
+          src="/assets/capsule_cabin/home_map_link_no_nodes.png"
+          alt="威海滨海度假区项目位置地图"
           loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-        ></iframe>
+        />
+        <a
+          class="map-open-link"
+          href="https://j.map.baidu.com/66/srrM"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          打开地图
+        </a>
       </div>
     </section>
 
@@ -561,6 +568,7 @@ onBeforeRouteLeave(() => {
 }
 
 .map-frame {
+  position: relative;
   height: min(620px, 58vw);
   min-height: 420px;
   margin-top: 16px;
@@ -571,11 +579,36 @@ onBeforeRouteLeave(() => {
   box-shadow: 0 18px 42px rgba(15, 23, 42, 0.12);
 }
 
-.map-frame iframe {
+.map-frame img {
   display: block;
   width: 100%;
   height: 100%;
-  border: 0;
+  object-fit: cover;
+}
+
+.map-open-link {
+  position: absolute;
+  right: 18px;
+  top: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0 14px;
+  color: #083344;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(15, 118, 110, 0.22);
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+  backdrop-filter: blur(8px);
+}
+
+.map-open-link:hover {
+  color: #0f766e;
+  border-color: rgba(15, 118, 110, 0.45);
 }
 
 .scale-section {
